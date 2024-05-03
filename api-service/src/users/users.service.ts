@@ -1,13 +1,15 @@
 import { Inject, Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { CreateUserDto } from './dto/create-user.dto';
-import { KafkaProducerService } from 'src/common/producer/kafka-producer.service';
+//import { KafkaProducerService } from 'src/common/producer/kafka-producer.service';
 import { Client, ClientKafka, Transport } from '@nestjs/microservices';
 
 @Injectable()
 export class UsersService {
   constructor(
-    private readonly kafkaProducerService: KafkaProducerService,
-    @Inject('DATABASE_SERVICE') private readonly dataClient: ClientKafka
+    //private readonly kafkaProducerService: KafkaProducerService,
+    @Inject('DATABASE_SERVICE') private readonly dataClient: ClientKafka,
+    private readonly configService: ConfigService,
     ) {}
   
     async onModuleInit() {
