@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Kafka, Producer } from 'kafkajs';
 
 import {
@@ -14,7 +14,7 @@ import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { ClientKafka } from '@nestjs/microservices';
 
 @Injectable()
-export class KafkaProducerService {
+export class IdempotentProducerService {
   private readonly kafkaInstance: Kafka;
   private producer: Producer;
 
@@ -43,7 +43,13 @@ export class KafkaProducerService {
     (value: string) => {
       return producer.send({
         topic,
-        messages: [{ key, value }],
+        messages: [{
+           key,
+           value,
+           headers: {
+            messageId: "5", // Include messageId in message headers for idempotent consumer
+          },
+          }],
       });
     };
     try {
@@ -51,10 +57,5 @@ export class KafkaProducerService {
     } catch (e) {
       console.error('Caught Error while sending:', e);
     }
-    /* await this.producer.send({
-      topic: kafkaTopic,
-      messages: [
-        { value: 'Hello KafkaJS user!' }],//[{ value: JSON.stringify(message) }],
-    }); */
   }
 }

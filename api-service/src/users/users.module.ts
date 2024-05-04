@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
-//import { KafkaProducerService } from 'src/common/producer/kafka-producer.service';
+import { IdempotentProducerService } from 'src/common/producer/idempontent-producer.service';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
@@ -28,6 +28,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     ])
   ],
   controllers: [UsersController],
-  providers: [UsersService] //KafkaProducerService
+  providers: [UsersService, IdempotentProducerService]
 })
 export class UsersModule {}

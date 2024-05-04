@@ -16,10 +16,5 @@ export function decodeMessage(data: any): DecodedMessage {
 
   const { value, headers } = data;
 
-  // Validate message structure (optional)
-  // if (!value.id || !value.name) {
-  //   throw new Error('Invalid message content');
-  // }
-
   return { value, headers };
 }
