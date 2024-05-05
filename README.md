@@ -106,7 +106,7 @@ check consumer console for detection of the duplicate message and the consumer c
 
 ## Screenshots
 
-![idempotent consumer Screenshot]([https://via.placeholder.com/468x300?text=App+Screenshot+Here](https://ibb.co/GRbKXcZ))
+![idempotent consumer Screenshot](https://ibb.co/GRbKXcZ)
 
 
 ## Optimizations
