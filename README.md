@@ -79,24 +79,26 @@ git checkout idempotent-solution
 ./api-service/npm run start:dev
 ./database-service/npm run start:dev
 ```
-create user with messageId 1
+create user with messageId 1111
 POST /user
 ```bash
 curl --location 'http://localhost:3001/users' \
 --header 'Content-Type: application/json' \
 --data '{
     "id":"1",
+    "messageId":"1111",
     "name": "test user 1"
 }'
 ```
 
-retry the by sending the same value as the messageId 1
+retry the same curl command by sending the same value as the messageId 1111
 POST /user
 ```bash
 curl --location 'http://localhost:3001/users' \
 --header 'Content-Type: application/json' \
 --data '{
     "id":"1",
+    "messageId":"1111",
     "name": "test user 1"
 }'
 ```
@@ -106,7 +108,7 @@ check consumer console for detection of the duplicate message and the consumer c
 
 ## Screenshots
 
-https://ibb.co/GRbKXcZ
+[https://ibb.co/GRbKXcZ](https://ibb.co/R6DPfM8)
 
 
 ## Optimizations
