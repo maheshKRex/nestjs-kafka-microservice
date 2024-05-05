@@ -1,4 +1,4 @@
-import { Controller, ParseIntPipe } from '@nestjs/common';
+import { Controller } from '@nestjs/common';
 import { EventPattern, MessagePattern, Payload } from '@nestjs/microservices';
 import { UserStoreService } from './user-store.service';
 import { MessageDto, decodeMessage } from 'src/common/message/message.dto';
@@ -12,7 +12,7 @@ export class UserStoreController {
   @EventPattern('create_user')
   handleUserCreate(@Payload() data: MessageDto) {
     console.log("event received %j", data);
-    let values = decodeMessage(data).value;
+    const values = decodeMessage(data).value;
     this.userStoreService.createUser(values as User);
   }
 

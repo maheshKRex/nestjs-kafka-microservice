@@ -1,13 +1,10 @@
-import { Injectable, ArgumentMetadata, PipeTransform } from '@nestjs/common';
+import { Injectable, PipeTransform } from '@nestjs/common';
 import { MessageDto } from './message.dto';
 
 @Injectable()
 export class ParseMessagePipe implements PipeTransform<any, MessageDto> {
-  transform(rawMessage: any, metadata: ArgumentMetadata): MessageDto {
+  transform(rawMessage: any): MessageDto {
     const { value, headers } = rawMessage;
-
-    const parsedMessage = new MessageDto({ value, headers });
-
-    return parsedMessage;
+    return new MessageDto({ value, headers });
   }
 }

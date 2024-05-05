@@ -28,7 +28,7 @@ describe('AppController (e2e)', () => {
       providers: [
         {
           provide: 'DATABASE_SERVICE',
-          useFactory: async (configService: ConfigService) => ({
+          useFactory: async () => ({
             imports: [ConfigModule, ConfigService],
             transport: Transport.KAFKA,
             options: {
@@ -59,24 +59,23 @@ describe('AppController (e2e)', () => {
 
   it('should produce a message when POST request is made', async () => {
     
-    const data = { id: '1', name: 'John Doe' }; // Example data
-    const producerService = app.get(UsersService); // Inject producer service
-    jest.spyOn(producerService, 'create'); // Spy on producer service method
+    const data = { id: '1', name: 'John Doe' };
+    const producerService = app.get(UsersService);
+    jest.spyOn(producerService, 'create');
     await request(app.getHttpServer())
       .post('/users')
       .send(data)
       .expect(201)
 
-    expect(producerService.create).toHaveBeenCalledWith(data); // Assert message production
+    expect(producerService.create).toHaveBeenCalledWith(data);
   });
 
   it('should retrieve data from Kafka when GET request is made', async () => {
-    const producerService = app.get(UsersService); // Inject producer service
-    const id = 1; // Example data
-    const data = { id: '1', name: 'John Doe' }; // Example data
-    jest.spyOn(producerService, 'get'); // Spy on producer service method
+    const producerService = app.get(UsersService);
+    const data = { id: '1', name: 'John Doe' };
+    jest.spyOn(producerService, 'get');
 
-    const response = await request(app.getHttpServer())
+    await request(app.getHttpServer())
     .get('/users/5')
     .abort
     expect(producerService.create).toHaveBeenCalledWith(data); 

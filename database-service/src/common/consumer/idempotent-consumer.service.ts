@@ -1,7 +1,6 @@
 import { Consumer, EachMessagePayload, Kafka } from 'kafkajs';
 import {
     clientId,
-    kafkaTopic,
     broker,
 } from '../../../kafka-config.json';
 import { Injectable, OnModuleInit } from '@nestjs/common';
