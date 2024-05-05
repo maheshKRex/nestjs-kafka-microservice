@@ -5,6 +5,8 @@ import {
 } from '../../../kafka-config.json';
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { ProcessedMessageRepository } from './processed-message.repository';
+import { UserStoreService } from 'src/user-store/user-store.service';
+import { User } from '../types/User';
 
 @Injectable()
 export class IdempotentConsumerService implements OnModuleInit {
@@ -13,6 +15,7 @@ export class IdempotentConsumerService implements OnModuleInit {
 
     constructor(
       private readonly processedMessageRepository: ProcessedMessageRepository,
+      private readonly userStoreService: UserStoreService
     ) {
         this.kafka = new Kafka({
             clientId: clientId,
@@ -42,7 +45,14 @@ export class IdempotentConsumerService implements OnModuleInit {
               return;
             }
             // Process the message...
-            console.log(`Processing message: ${messageId}`);
+            console.log(`Processing message: ${messageId} ${message.value}`);
+            this.userStoreService.createUser(
+              {
+                id : messageId,
+                name: message.value.toString()
+              } as User
+            );
+
             // Save the messageId to the database
             await this.processedMessageRepository.save({
                 id: messageId,
