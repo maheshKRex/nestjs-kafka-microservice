@@ -1,0 +1,60 @@
+version: "3.9"
+services:
+  zookeeper:
+    container_name: test-zookeeper
+    hostname: zookeeper
+    image: confluentinc/cp-zookeeper:latest
+    ports:
+      - "2181:2181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+
+  kafka:
+    container_name: test-kafka
+    hostname: kafka
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      - zookeeper
+    ports:
+      - "29092:29092"
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_DELETE_TOPIC_ENABLE: 'true'
+
+  kafdrop:
+    image: obsidiandynamics/kafdrop:latest
+    depends_on:
+      - kafka
+    ports:
+      - 19000:9000
+    environment:
+      KAFKA_BROKERCONNECT: kafka:29092
+
+  api-service:
+    container_name: api-service
+    depends_on:
+      - kafdrop
+    build:
+      context: ./api-service
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./api-service:/app
+
+  database-service:
+    container_name: database-service
+    depends_on:
+      - api-service
+    build:
+      context: ./database-service
+    volumes:
+      - ./database-service:/app
+
+## experienced difficulties on connecting the services to kafka instance running on docker in a Mac.
