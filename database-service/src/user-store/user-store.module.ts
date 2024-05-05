@@ -6,7 +6,7 @@ import { IdempotentConsumerService } from 'src/common/consumer/idempotent-consum
 import { ProcessedMessageRepository } from 'src/common/consumer/processed-message.repository';
 
 @Module({
-  imports:[UsersRepository, ProcessedMessageRepository],
+  imports:[],
   controllers: [UserStoreController],
   providers: [UserStoreService, UsersRepository, IdempotentConsumerService, ProcessedMessageRepository]
 })

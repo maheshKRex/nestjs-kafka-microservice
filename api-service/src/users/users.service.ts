@@ -18,12 +18,10 @@ export class UsersService {
     }
     
   create(createUserDto: CreateUserDto) {
-    //return this.dataClient.emit('create_user', JSON.stringify(createUserDto));
-    return this.idempotentProducerService.publishMessage('idempotent_create_user', createUserDto); //TODO: address idempotency on inserting events to kafka // 
+    return this.idempotentProducerService.publishMessage('idempotent_create_user', createUserDto);
   }
 
   get(id: string) {
-    console.log(id);
     return this.dataClient.send('get_user', id);
   }
 }

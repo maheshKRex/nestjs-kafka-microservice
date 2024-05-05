@@ -3,7 +3,7 @@ import { IdempotentConsumerService } from './idempotent-consumer.service';
 import { ProcessedMessageRepository } from './processed-message.repository';
 
 @Module({
-    imports: [ProcessedMessageRepository],
+    imports: [],
     providers: [IdempotentConsumerService, ProcessedMessageRepository]
 })
 export class IdempotentConsumerModule {}

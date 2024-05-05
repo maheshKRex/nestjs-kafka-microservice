@@ -45,7 +45,7 @@ export class IdempotentProducerService {
            key,
            value,
            headers: {
-            messageId: "5", // Include messageId in message headers for idempotent consumer
+            messageId: user.messageId, // Include messageId in message headers for idempotent consumer
           },
           }],
       });
