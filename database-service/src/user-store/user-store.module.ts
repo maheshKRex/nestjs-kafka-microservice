@@ -4,7 +4,7 @@ import { UserStoreService } from './user-store.service';
 import { UsersRepository } from './user.repository';
 
 @Module({
-  imports:[UsersRepository],
+  imports:[],
   controllers: [UserStoreController],
   providers: [UserStoreService, UsersRepository]
 })

@@ -7,10 +7,9 @@ export class UsersRepository {
 
   save(user: User) {
     this.users.push({ ...user, id: user.id });
-    console.log(this.users);
   }
 
   findOne(id: string) {
-    return this.users.find((u) => u.id === id) || null;
+    return this.users.find((u) => u.id == id) || null;
   }
 }

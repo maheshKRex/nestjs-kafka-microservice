@@ -16,6 +16,8 @@ async function bootstrap() {
     }
   });
 
-  app.listen(() => console.log('Kafka consumer service is listening!'))
+  await app.listen()
+    .then(() => console.log('Kafka consumer service is listening!'))
+    .catch(error => console.error('Error starting consumer:', error));
 }
 bootstrap();

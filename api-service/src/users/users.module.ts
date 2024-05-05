@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
-//import { KafkaProducerService } from 'src/common/producer/kafka-producer.service';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
@@ -9,7 +8,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
   imports: [
     ClientsModule.registerAsync([
         {
-            name: 'DATABASE_SERVICE',
+            name: 'KAFKA_SERVICE',
             useFactory: async (configService: ConfigService) => ({
                 imports: [ConfigModule, ConfigService],
                 transport: Transport.KAFKA,
@@ -28,6 +27,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     ])
   ],
   controllers: [UsersController],
-  providers: [UsersService] //KafkaProducerService
+  providers: [UsersService]
 })
 export class UsersModule {}
