@@ -7,7 +7,6 @@ export class ProcessedMessageRepository {
 
   save(message: ProcessedMessage) {
     this.messages.push({ ...message, id: message.id });
-    console.log(this.messages);
   }
 
   findOne(id: string) {

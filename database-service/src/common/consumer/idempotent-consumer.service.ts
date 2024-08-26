@@ -21,7 +21,10 @@ export class IdempotentConsumerService implements OnModuleInit {
             clientId: clientId,
             brokers: [broker]
         });
-        this.consumer = this.kafka.consumer({ groupId: 'my-group' });
+        this.consumer = this.kafka.consumer({
+           groupId: 'my-group' ,
+           readUncommitted: true
+          });
     }
 
     async onModuleInit() {
@@ -34,7 +37,7 @@ export class IdempotentConsumerService implements OnModuleInit {
         await this.consumer.run({
           eachMessage: async ({ topic, partition, message }: EachMessagePayload) => {
             const messageId = message.headers['messageId'].toString(); // Assuming messageId is stored in Kafka message headers
-            console.log(`messageId ${messageId}`);
+            console.log(`messageId ${messageId} received!!`);
             if (!messageId) {
               return;
             }

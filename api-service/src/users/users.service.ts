@@ -17,8 +17,12 @@ export class UsersService {
       await this.dataClient.connect();
     }
     
-  create(createUserDto: CreateUserDto) {
-    return this.idempotentProducerService.publishMessage('idempotent_create_user', createUserDto);
+  async create(createUserDto: CreateUserDto) {
+    /* console.log('publishing non-transactional message: ', createUserDto.id);
+    await this.idempotentProducerService.publishMessage('idempotent_create_user', createUserDto); */
+    console.log('publishing transactional message: ', createUserDto.id);
+    return await this.idempotentProducerService.sendMessageWithTransaction('idempotent_create_user', createUserDto);
+    //return await this.idempotentProducerService.sendMessageZombieTransactionAndMessage('idempotent_create_user', createUserDto);
   }
 
   get(id: string) {
